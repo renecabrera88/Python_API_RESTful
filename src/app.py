@@ -95,7 +95,7 @@ def delete_taks(id):
 
 @app.route('/', methods=['GET'])
 def index():
-    return jsonify({Welcome to my APIrestul})
+    return jsonify({'name' : 'Welcome to my APIrestul'})
 
 
 
