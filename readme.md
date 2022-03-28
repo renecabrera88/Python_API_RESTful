@@ -3,3 +3,4 @@
 3.- colocar la configuracion de la BD en la siguiente linea:
 app.config['SQLALCHEMY_DATABASE_URI']='mysql+pymysql://usuario:pass@localhost/revisiontecnica'
 4.- intalar requirement.txt con siguiiente comando: pip install -r requirements.txt
+5.- ejecutar: python src/app.py
