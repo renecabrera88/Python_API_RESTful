@@ -8,7 +8,6 @@ from flask import request
 from flask import jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask_marshmallow import Marshmallow
-from flask_mysqldb import MySQL
 
 """============== Config =============================== Config ==============================="""
 
@@ -18,7 +17,7 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS']=False
 
 db = SQLAlchemy(app)
 ma = Marshmallow(app)
-mysql = MySQL(app)
+
 
 """============== Modelos =============================== Modelos ==============================="""
 
@@ -214,24 +213,18 @@ def delete_inspeccion(id):
 @app.route('/consulta_inspeccion/<id>', methods=['GET'])
 def get_inspeccion(id):
     """se hace la consulta con el id"""
-    #ORM => inspeccion_por_patente = db.session.query(Inspeccion).join(Revision).join(Vehiculo).filter(Vehiculo.id == (id))
-    #print(inspeccion_por_patente)
-    #return inspeccion_schema.jsonify(inspeccion_por_patente)
-
-
-# con sql
-    cur = mysql.connection.cursor()
-    cur.execute('''SELECT inspeccion.id AS inspeccion_id, inspeccion.revisionid AS inspeccion_revisionid,
-                inspeccion.tipoinspeccionid AS inspeccion_tipoinspeccionid, inspeccion.observaciones AS inspeccion_observaciones, 
-                inspeccion.estado AS inspeccion_estado, inspeccion.personaiden AS inspeccion_personaiden
-                FROM inspeccion 
-                INNER JOIN revision ON revision.id = inspeccion.revisionid 
-                INNER JOIN vehiculo ON vehiculo.id = revision.vehiculoid 
-                WHERE vehiculo.id = (%s)''', [id])
-        
-    data = cur.fetchall()
-    return inspeccion_schema.jsonify(data)
+     
+    inspeccion_por_patente = (db.session.query(Inspeccion)
+        .join(Revision)
+        .join(Vehiculo)
+        .filter(Vehiculo.id == id)
+        ).all()
     
+    db.session.commit()
+    
+    print(inspeccion_por_patente)
+    return inspecciones_schema.jsonify(inspeccion_por_patente)
+
 
 
 """============== Server =============================== Server ==============================="""
