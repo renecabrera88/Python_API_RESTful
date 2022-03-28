@@ -210,21 +210,18 @@ def delete_inspeccion(id):
     
     return inspeccion_schema.jsonify(inspeccion)
 
-@app.route('/consulta_inspeccion/<id>', methods=['GET'])
-def get_inspeccion(id):
+@app.route('/consulta_revision/<id>', methods=['GET'])
+def get_revision(id):
     """se hace la consulta con el id"""
      
-    inspeccion_por_patente = (db.session.query(Inspeccion)
-        .join(Revision)
-        .join(Vehiculo)
-        .filter(Vehiculo.id == id)
-        ).all()
+    revision_por_patente = (db.session.query(Revision)
+                            .join(Vehiculo)
+                            .filter(Vehiculo.id == id)
+                            ).all()
     
     db.session.commit()
     
-    print(inspeccion_por_patente)
-    return inspecciones_schema.jsonify(inspeccion_por_patente)
-
+    return revisiones_schema.jsonify(revision_por_patente)
 
 
 """============== Server =============================== Server ==============================="""
