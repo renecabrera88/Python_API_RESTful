@@ -219,6 +219,7 @@ def get_inspeccion(id):
     #return inspeccion_schema.jsonify(inspeccion_por_patente)
 
 
+# con sql
     cur = mysql.connection.cursor()
     cur.execute('''SELECT inspeccion.id AS inspeccion_id, inspeccion.revisionid AS inspeccion_revisionid,
                 inspeccion.tipoinspeccionid AS inspeccion_tipoinspeccionid, inspeccion.observaciones AS inspeccion_observaciones, 
